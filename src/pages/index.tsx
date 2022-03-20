@@ -1,13 +1,14 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import useFetch from '../hooks/useFetch';
-import { Repository } from '../types/github';
-import ProjectTicker from '../components/ProjectTicker';
+import { Repository, RepositoryLanguages } from '../types/github';
+import GithubTicker from '../components/GithubTicker';
 
-const Home: NextPage = () => {
-	const repos = useFetch<Repository[]>('/api/github');
+type HomeProps = {
+	projects: Repository[];
+};
 
+const Home: NextPage<HomeProps> = ({ projects }) => {
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -23,13 +24,7 @@ const Home: NextPage = () => {
 				</section>
 
 				<section id='github-project'>
-					{!!repos.isLoading ? (
-						<p>Loading...</p>
-					) : (
-						/*(
-						<ProjectTicker projects={repos.data!} />
-					)*/ <></>
-					)}
+					<GithubTicker projects={projects} />
 				</section>
 			</main>
 		</div>
@@ -37,3 +32,51 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export async function getStaticProps () {
+	const { GH_USER, GH_TOKEN } = process.env;
+
+	const isValidRepository = (r: Repository): boolean => {
+		return (
+			!!r.description &&
+			!r.private &&
+			!r.fork &&
+			!r.description.includes('[private]')
+		);
+	};
+
+	const getLanguageStats = async (
+		repo: Repository
+	): Promise<RepositoryLanguages> => {
+		const res = await fetch(`https://api.github.com/users/${GH_USER}/repos`, {
+			headers: {
+				Authorization: `token ${GH_TOKEN}`,
+				'Content-Type': 'application/json'
+			}
+		});
+		return await res.json();
+	};
+
+	const ghReposRaw = await fetch(
+		`https://api.github.com/users/${GH_USER}/repos`,
+		{
+			headers: {
+				Authorization: `token ${GH_TOKEN}`,
+				'Content-Type': 'application/json'
+			}
+		}
+	);
+
+	const ghRepos: Repository[] = (await ghReposRaw.json()).filter(
+		isValidRepository
+	);
+
+	// TODO: Add languages
+	const langs = await getLanguageStats(ghRepos[0]);
+
+	return {
+		props: {
+			projects: ghRepos
+		}
+	};
+}
