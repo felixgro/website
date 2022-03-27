@@ -8,7 +8,7 @@ type ProjectProps = {
 
 const Projects: NextPage<ProjectProps> = ({ projects }) => {
 	return (
-		<>
+		<div className='container'>
 			<Head>
 				<title>Projects</title>
 			</Head>
@@ -28,7 +28,7 @@ const Projects: NextPage<ProjectProps> = ({ projects }) => {
 					</ul>
 				</section>
 			</main>
-		</>
+		</div>
 	);
 };
 
