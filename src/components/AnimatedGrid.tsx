@@ -176,7 +176,7 @@ const AnimatedGrid: FC = ({ children }) => {
 	}, [width]);
 
 	return (
-		<div className={`overlay`}>
+		<div className='overlay'>
 			<div ref={content}>{children}</div>
 			<div className={styles.svgWrapper}>
 				<svg ref={gridElement} className={styles.svg}></svg>
