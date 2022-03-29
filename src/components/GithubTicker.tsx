@@ -5,7 +5,7 @@ type ProjectTickerProps = {
 	projects: Repository[];
 };
 
-const ProjectTicker: FC<ProjectTickerProps> = ({ projects }) => {
+const GithubTicker: FC<ProjectTickerProps> = ({ projects }) => {
 	return (
 		<ul>
 			{projects.map(repo => {
@@ -15,4 +15,4 @@ const ProjectTicker: FC<ProjectTickerProps> = ({ projects }) => {
 	);
 };
 
-export default ProjectTicker;
+export default GithubTicker;

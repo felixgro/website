@@ -7,22 +7,25 @@ type ProjectProps = {
 };
 
 const Projects: NextPage<ProjectProps> = ({ projects }) => {
-	console.log(projects);
 	return (
-		<div>
+		<div className='container'>
 			<Head>
 				<title>Projects</title>
 			</Head>
 
 			<main>
 				<section>
-					{projects.map((project, idx) => {
-						return (
-							<Link key={idx} href={project.route}>
-								<a>{project.title}</a>
-							</Link>
-						);
-					})}
+					<ul>
+						{projects.map((project, idx) => {
+							return (
+								<li key={idx}>
+									<Link href={project.route}>
+										<a>{project.title}</a>
+									</Link>
+								</li>
+							);
+						})}
+					</ul>
 				</section>
 			</main>
 		</div>
@@ -35,13 +38,12 @@ export async function getStaticProps () {
 	//requiring path and fs modules
 	const path = require('path');
 	const fs = require('fs');
-	//joining path of directory
+
 	const projectsDirectoryPath = path.join(
 		__dirname,
 		'../../../src/pages/projects'
 	);
 
-	//passsing directoryPath
 	const files: string[] = fs.readdirSync(projectsDirectoryPath);
 
 	const projects = files
