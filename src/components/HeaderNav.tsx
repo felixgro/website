@@ -25,6 +25,7 @@ const HeaderNav: FC = () => {
 						href='https://github.com/felixgro'
 						title='Github Account'
 						target='_blank'
+						rel='noreferrer'
 					>
 						<svg
 							width='18'

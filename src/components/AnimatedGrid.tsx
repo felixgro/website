@@ -164,7 +164,7 @@ const AnimatedGrid: FC = ({ children }) => {
 			grid.setGridCells(gridCells).generate(gridElement.current);
 			gridElement.current.classList.add(styles.visible);
 		}
-	}, [children]);
+	}, [children, grid]);
 
 	useEffect(() => {
 		if (!gridElement.current || !content.current) return;
@@ -173,7 +173,7 @@ const AnimatedGrid: FC = ({ children }) => {
 			`${content.current.clientWidth}`
 		);
 		grid.destroy().generate(gridElement.current);
-	}, [width]);
+	}, [width, grid]);
 
 	return (
 		<div className='overlay'>
