@@ -10,3 +10,8 @@
    align-items: center;
    gap: 1rem;
 }
+
+.footer nav ul li a {
+   display: flex;
+   align-items: center;
+}

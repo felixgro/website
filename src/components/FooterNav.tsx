@@ -13,7 +13,7 @@ const FooterNav: FC = () => {
 					</Link>
 				</li>
 				<li>
-					<Link href=''>
+					<Link href='/imprint'>
 						<a>
 							<small>Imprint</small>
 						</a>

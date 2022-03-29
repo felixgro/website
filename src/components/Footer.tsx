@@ -4,7 +4,7 @@ import styles from '../styles/modules/Footer.module.css';
 
 const Footer: FC = () => {
 	return (
-		<footer className={`${styles.footer} grid-cell`}>
+		<footer className={styles.footer}>
 			<div>
 				<small>felixgrohs.dev</small>
 			</div>
