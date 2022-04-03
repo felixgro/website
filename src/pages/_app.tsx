@@ -10,7 +10,9 @@ function App ({ Component, pageProps }: AppProps) {
 			<div className='container'>
 				<Header />
 				<Component {...pageProps} />
-				<Footer />
+				<div className='grid-cell'>
+					<Footer />
+				</div>
 			</div>
 		</AnimatedGrid>
 	);

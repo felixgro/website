@@ -1,0 +1,99 @@
+.board {
+   max-width: 650px;
+   user-select: none;
+   margin: 50px auto;
+}
+
+.boardRowWrapper {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   max-width: fit-content;
+   margin: 20px auto;
+}
+
+.boardRow {
+   position: relative;
+   max-width: fit-content;
+}
+
+.boardRow > form {
+   position: absolute;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100%;
+   width: 100%;
+}
+
+.boardRow > form > input,
+.boardRow > form > label {
+   opacity: 0;
+}
+
+.boardRow > form > input {
+   position: absolute;
+   inset: 0;
+   z-index: 100;
+}
+
+.boardCellWrapper {
+   display: flex;
+   flex-direction: row;
+   gap: 8px;
+}
+
+.boardCell {
+   position: relative;
+   height: 64px;
+   width: 64px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 32px;
+   border: 2.5px solid #ddd;
+   font-weight: 800;
+   transform-origin: center center;
+   transition: border-color 240ms ease-out;
+}
+
+.rowInFocus > div > div {
+   border-color: #ccc;
+}
+
+.boardCell::after {
+   content: "";
+   position: absolute;
+   inset: 0;
+   width: 100%;
+   height: 100%;
+   pointer-events: none;
+   z-index: -1;
+   transform: scaleY(0);
+   transform-origin: bottom center;
+   transition: transform 160ms ease-out;
+}
+
+.wrongCell {
+   border-color: #ddd;
+}
+.wrongCell::after {
+   background: #ddd;
+   transform: scaleY(1);
+}
+
+.rightCell {
+   border-color: #c9b458;
+}
+.rightCell::after {
+   background-color: #c9b458;
+   transform: scaleY(1);
+}
+
+.perfectCell {
+   border-color: #6aaa64;
+}
+.perfectCell::after {
+   background-color: #6aaa64;
+   transform: scaleY(1);
+}
