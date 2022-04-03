@@ -3,6 +3,8 @@ import HeaderNav from './HeaderNav';
 import styles from '../styles/modules/Header.module.css';
 
 const HeaderSticky: FC = () => {
+	return <></>;
+
 	return (
 		<header className={styles.sticky}>
 			<div>
