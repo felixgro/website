@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from 'next';
-import { encrypt, EncryptedData } from '../../utils/crypto';
+import { encrypt, EncryptedData } from '@utils/crypto';
 
 type Data = {
 	encrypted: string;

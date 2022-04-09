@@ -67,7 +67,6 @@ export default class AnimatedGrid {
 
 	public positionate (): this {
 		this.lines.forEach(line => line.updatePositions());
-		this.generate();
 		return this;
 	}
 

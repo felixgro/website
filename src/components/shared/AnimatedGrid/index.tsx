@@ -1,14 +1,19 @@
-import { FC, useEffect, useRef } from 'react';
-import useAnimatedGrid from '../hooks/useAnimatedGrid';
-import { RouterState } from '../hooks/useRouterState';
-import useViewSize from '../hooks/useViewSize';
-import styles from '../styles/modules/AnimatedGrid.module.css';
+import { FC, useEffect, useRef, useState } from 'react';
+import { RouterState } from '@hooks/useRouterState';
+import AnimatedGrid, { AnimatedGridConfig } from './Grid';
+import useViewSize from '@hooks/useViewSize';
+import styles from '@styles/modules/AnimatedGrid.module.css';
 
 type AnimatedGridProps = {
 	routerState: RouterState;
 };
 
-const AnimatedGrid: FC<AnimatedGridProps> = ({ children, routerState }) => {
+const useAnimatedGrid = (config: AnimatedGridConfig) => {
+	const [grid] = useState<AnimatedGrid>(new AnimatedGrid(config));
+	return grid;
+};
+
+const Grid: FC<AnimatedGridProps> = ({ children, routerState }) => {
 	const gridSVG = useRef<SVGSVGElement>(null);
 	const content = useRef<HTMLDivElement>(null);
 
@@ -72,4 +77,4 @@ const AnimatedGrid: FC<AnimatedGridProps> = ({ children, routerState }) => {
 	);
 };
 
-export default AnimatedGrid;
+export default Grid;

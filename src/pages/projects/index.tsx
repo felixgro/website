@@ -14,6 +14,7 @@ const Projects: NextPage<ProjectProps> = ({ projects }) => {
 			</Head>
 
 			<main>
+				<h1>Projects</h1>
 				<section>
 					<ul>
 						{projects.map((project, idx) => {
