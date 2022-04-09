@@ -8,7 +8,7 @@ type ProjectProps = {
 
 const Projects: NextPage<ProjectProps> = ({ projects }) => {
 	return (
-		<div className='container'>
+		<div className='container grid-cell'>
 			<Head>
 				<title>Projects</title>
 			</Head>

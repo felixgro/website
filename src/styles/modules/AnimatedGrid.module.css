@@ -7,11 +7,6 @@
    z-index: -1;
 }
 
-.svg {
-   clip-path: circle(0 at top left);
-   transition: clip-path .75s ease-out;
-}
-
-.visible {
-   clip-path: circle(150% at top left);
+.noDash {
+   stroke-dashoffset: 0 !important;
 }

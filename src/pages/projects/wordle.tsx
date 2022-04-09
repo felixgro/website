@@ -12,12 +12,10 @@ type WordlePageProps = {
 const Worlde: NextPage<WordlePageProps> = ({ secretWord, maxTries }) => {
 	const generateGameLink = (e: any) => {
 		e.preventDefault();
-		// get form data
+
 		const formData = new FormData(e.target as HTMLFormElement);
 		const secretWord = formData.getAll('word')[0];
 		const maxTriesValue = formData.getAll('maxtries')[0];
-
-		console.log({ secretWord, maxTriesValue });
 
 		fetch(`/api/encrypt?q=${secretWord}`, {
 			method: 'GET'
@@ -57,7 +55,7 @@ const Worlde: NextPage<WordlePageProps> = ({ secretWord, maxTries }) => {
 							min={3}
 							max={10}
 						/>
-						<button type='submit'>Generate Link</button>
+						<button type='submit'>Generate & Copy Link</button>
 					</form>
 				</section>
 			</main>

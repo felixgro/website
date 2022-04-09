@@ -6,7 +6,7 @@ const Baby: NextPage = () => {
 	greet();
 
 	return (
-		<div>
+		<div className='grid-cell'>
 			<Head>
 				<title>Demo Project</title>
 			</Head>

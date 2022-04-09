@@ -7,7 +7,7 @@ const HeaderNav: FC = () => {
 			<ul>
 				<li>
 					<Link href='/'>
-						<a>Home</a>
+						<a>Hello</a>
 					</Link>
 				</li>
 				<li>
