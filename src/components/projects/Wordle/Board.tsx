@@ -1,13 +1,17 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
+import { GameState } from '.';
 import BoardRow from './BoardRow';
-import style from '../../styles/modules/Wordle.module.css';
+import style from '@styles/modules/Wordle.module.css';
 
-type WordleProps = {
+type BoardProps = {
+	gameState: GameState;
+	onWin: () => void;
+	onLoose: () => void;
+	maxTries: number;
 	solution: string;
-	maxTries?: number;
 };
 
-const Wordle: FC<WordleProps> = ({ solution, maxTries = 8 }) => {
+const Board: FC<BoardProps> = ({ maxTries, solution }) => {
 	const [curAttempt, setCurAttempt] = useState(0);
 
 	const gotoNextRow = () => {
@@ -39,4 +43,4 @@ const Wordle: FC<WordleProps> = ({ solution, maxTries = 8 }) => {
 	);
 };
 
-export default Wordle;
+export default Board;

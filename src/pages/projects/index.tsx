@@ -8,12 +8,13 @@ type ProjectProps = {
 
 const Projects: NextPage<ProjectProps> = ({ projects }) => {
 	return (
-		<div className='container'>
+		<div className='container grid-cell'>
 			<Head>
 				<title>Projects</title>
 			</Head>
 
 			<main>
+				<h1>Projects</h1>
 				<section>
 					<ul>
 						{projects.map((project, idx) => {

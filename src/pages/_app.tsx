@@ -1,12 +1,15 @@
-import '../styles/globals.css';
 import { AppProps } from 'next/app';
-import Header from '../components/Header';
-import AnimatedGrid from '../components/AnimatedGrid';
-import Footer from '../components/Footer';
+import Header from '@components/Header';
+import AnimatedGrid from '@components/shared/AnimatedGrid';
+import Footer from '@components/Footer';
+import useRouterState from '@hooks/useRouterState';
+import '@styles/globals.css';
 
 function App ({ Component, pageProps }: AppProps) {
+	const routerState = useRouterState();
+
 	return (
-		<AnimatedGrid>
+		<AnimatedGrid routerState={routerState}>
 			<div className='container'>
 				<Header />
 				<Component {...pageProps} />

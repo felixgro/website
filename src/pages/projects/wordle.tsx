@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import Wordle from '../../projects/wordle/Wordle';
-import { decrypt } from '../../utils/crypto';
+import Wordle from '@components/projects/Wordle';
+import { decrypt } from '@utils/crypto';
 
 type WordlePageProps = {
 	secretWord: string;
@@ -12,12 +12,10 @@ type WordlePageProps = {
 const Worlde: NextPage<WordlePageProps> = ({ secretWord, maxTries }) => {
 	const generateGameLink = (e: any) => {
 		e.preventDefault();
-		// get form data
+
 		const formData = new FormData(e.target as HTMLFormElement);
 		const secretWord = formData.getAll('word')[0];
 		const maxTriesValue = formData.getAll('maxtries')[0];
-
-		console.log({ secretWord, maxTriesValue });
 
 		fetch(`/api/encrypt?q=${secretWord}`, {
 			method: 'GET'
@@ -57,7 +55,7 @@ const Worlde: NextPage<WordlePageProps> = ({ secretWord, maxTries }) => {
 							min={3}
 							max={10}
 						/>
-						<button type='submit'>Generate Link</button>
+						<button type='submit'>Generate & Copy Link</button>
 					</form>
 				</section>
 			</main>
@@ -77,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 		maxTries = parseInt(context.query.t as string, 10);
 		secretWord = decrypt({ content, iv });
 	} else {
-		const words = await import('../../projects/wordle/words.json');
+		const words = await import('@components/projects/Wordle/words.json');
 		const randomId = Math.floor(Math.random() * words.length);
 		// @ts-ignore
 		secretWord = words[randomId];

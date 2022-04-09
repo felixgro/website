@@ -22,60 +22,6 @@ const Home: NextPage<HomeProps> = ({ projects }) => {
 				<section id='intro' className='grid-cell'>
 					<h1>Hello World!</h1>
 					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-
-					<Glow>
-						<div
-							style={{
-								position: 'relative',
-								width: '400px',
-								boxSizing: 'border-box',
-								padding: '40px',
-								margin: '50px',
-								background: 'rgba(255,255,255,0.3)',
-								boxShadow: '0px 0px 24px 0px rgba(0,0,0,0.03)'
-							}}
-						>
-							<h2 style={{ marginTop: 0 }}>Glow</h2>
-							<p style={{ marginBottom: 0 }}>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit.
-								Minima molestiae ullam doloribus.
-							</p>
-						</div>
-					</Glow>
-					<div
-						style={{
-							position: 'relative',
-							width: '400px',
-							boxSizing: 'border-box',
-							padding: '40px',
-							margin: '50px',
-							background: 'rgba(255,255,255,0.3)',
-							boxShadow: '0px 0px 24px 0px rgba(0,0,0,0.03)'
-						}}
-					>
-						<h2 style={{ marginTop: 0 }}>Glow</h2>
-						<p style={{ marginBottom: 0 }}>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Minima molestiae ullam doloribus.
-						</p>
-					</div>
-					<div
-						style={{
-							position: 'relative',
-							width: '400px',
-							boxSizing: 'border-box',
-							padding: '40px',
-							margin: '50px',
-							background: 'rgba(255,255,255,0.3)',
-							boxShadow: '0px 0px 24px 0px rgba(0,0,0,0.03)'
-						}}
-					>
-						<h2 style={{ marginTop: 0 }}>Glow</h2>
-						<p style={{ marginBottom: 0 }}>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							Minima molestiae ullam doloribus.
-						</p>
-					</div>
 				</section>
 
 				<section id='github-project'>
