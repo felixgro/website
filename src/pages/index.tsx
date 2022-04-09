@@ -1,9 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import { Repository, RepositoryLanguages } from '../types/github';
 import GithubTicker from '../components/GithubTicker';
-import Glow from '../components/shared/Glow';
 
 type HomeProps = {
 	projects: Repository[];
