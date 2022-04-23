@@ -3,9 +3,9 @@ import Header from '@components/Header';
 import AnimatedGrid from '@components/shared/AnimatedGrid';
 import Footer from '@components/Footer';
 import useRouterState from '@hooks/useRouterState';
-import '@styles/globals.css';
+import '@styles/globals.scss';
 
-function App ({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
 	const routerState = useRouterState();
 
 	return (

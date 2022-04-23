@@ -1,0 +1,19 @@
+.card {
+   display: flex;
+   flex-direction: column;
+
+   & > div {
+      line-height: 1em;
+      font-size: .9rem;
+      font-weight: 600;
+      text-align: right;
+   }
+
+   & > p {
+      font-size: .65rem;
+      line-height: 1em;
+      margin-top: 4px;
+      
+      color: #aaa;
+   }
+}

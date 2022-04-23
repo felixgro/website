@@ -1,7 +1,6 @@
 .board {
    max-width: 650px;
    user-select: none;
-   margin: 50px auto;
 }
 
 .boardRowWrapper {
@@ -9,7 +8,6 @@
    flex-direction: column;
    gap: 8px;
    max-width: fit-content;
-   margin: 20px auto;
 }
 
 .boardRow {

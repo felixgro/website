@@ -43,7 +43,7 @@ const Home: NextPage<HomeProps> = ({ projects }) => {
 
 export default Home;
 
-export async function getStaticProps () {
+export async function getStaticProps() {
 	const { GH_USER, GH_TOKEN } = process.env;
 
 	const isValidRepository = (r: Repository): boolean => {

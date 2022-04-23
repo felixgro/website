@@ -61,3 +61,26 @@ ul, ol {
 #github-project > * {
   width: 100%;
 }
+
+button {
+  border: none;
+  background: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: .73rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-block: 30px;
+  &.button {
+    &--primary {
+      background: #111;
+      color: #eee;
+    }
+    &--secondary {
+      background: #eee;
+      color: #555;
+      margin-left: 15px;
+    }
+  }
+}
+
