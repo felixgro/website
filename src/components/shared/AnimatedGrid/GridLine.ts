@@ -3,29 +3,29 @@ import GridPoint from './GridPoint';
 export default class GridLine {
 	private line: SVGLineElement | undefined = undefined;
 
-	constructor (
+	constructor(
 		public pointA: GridPoint,
 		public pointB: GridPoint,
 		private width: number
-	) {}
+	) { }
 
-	get length (): number {
+	get length(): number {
 		return Math.sqrt(
 			Math.pow(this.pointA.coords.x - this.pointB.coords.x, 2) +
-				Math.pow(this.pointA.coords.y - this.pointB.coords.y, 2)
+			Math.pow(this.pointA.coords.y - this.pointB.coords.y, 2)
 		);
 	}
 
-	get isHorizontal (): boolean {
+	get isHorizontal(): boolean {
 		return this.pointA.coords.y === this.pointB.coords.y;
 	}
 
-	public updatePositions (): void {
+	public updatePositions(): void {
 		this.pointA.updateCoords();
 		this.pointB.updateCoords();
 	}
 
-	public generate (parentBcr: DOMRect) {
+	public generate(parentBcr: DOMRect) {
 		this.destroy();
 		let { x, y } = this.pointA.coords;
 		let { x: x2, y: y2 } = this.pointB.coords;
@@ -43,7 +43,7 @@ export default class GridLine {
 		this.line.setAttribute('y1', `${y}`);
 		this.line.setAttribute('x2', `${x2}`);
 		this.line.setAttribute('y2', `${y2}`);
-		this.line.setAttribute('stroke', '#ccc');
+		this.line.setAttribute('stroke', '#ddd');
 		if (
 			(this.isHorizontal && (y === 0 || y === parentBcr.height)) ||
 			(!this.isHorizontal && (x === 0 || x === parentBcr.width))
@@ -61,7 +61,7 @@ export default class GridLine {
 		return this.line;
 	}
 
-	public animateIn (duration: number, easing: string) {
+	public animateIn(duration: number, easing: string) {
 		if (!this.line) return;
 
 		this.line
@@ -78,10 +78,10 @@ export default class GridLine {
 			)
 			.addEventListener('finish', () => {
 				this.line!.style.strokeDashoffset = `0`;
-			});
+			}, { once: true });
 	}
 
-	public animateOut (duration: number, easing: string) {
+	public animateOut(duration: number, easing: string) {
 		if (!this.line) return;
 		const lengthDouble = this.length * 2;
 
@@ -100,10 +100,10 @@ export default class GridLine {
 			.addEventListener('finish', () => {
 				this.line!.style.strokeDashoffset = `${lengthDouble}`;
 				this.destroy();
-			});
+			}, { once: true });
 	}
 
-	public destroy () {
+	public destroy() {
 		if (this.line) this.line.remove();
 	}
 }

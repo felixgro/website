@@ -14,15 +14,17 @@ export default class AnimatedGrid {
 	private lines: GridLine[] = [];
 	private config: AnimatedGridConfig;
 
-	constructor (config: AnimatedGridConfig) {
+	constructor(config: AnimatedGridConfig) {
 		this.config = config;
 	}
 
-	get isEmpty (): boolean {
+	get isEmpty(): boolean {
 		return this.lines.length === 0;
 	}
 
-	public setGridCells (cells: NodeListOf<HTMLElement>): this {
+	public setGridCells(cells: NodeListOf<HTMLElement>): this {
+		if (!this.isEmpty) this.destroy(true);
+
 		const linesHor: GridLine[] = [];
 		const linesVer: GridLine[] = [];
 
@@ -53,7 +55,7 @@ export default class AnimatedGrid {
 		return this;
 	}
 
-	public generate (content: RefObject<HTMLDivElement>): this {
+	public generate(content: RefObject<HTMLDivElement>): this {
 		if (!this.config.svg.current) return this;
 		const svg = this.config.svg.current;
 		svg.innerHTML = '';
@@ -65,32 +67,32 @@ export default class AnimatedGrid {
 		return this;
 	}
 
-	public positionate (): this {
+	public positionate(): this {
 		this.lines.forEach(line => line.updatePositions());
 		return this;
 	}
 
-	public animateIn (): this {
+	public animateIn(): this {
 		this.lines.forEach(line =>
 			line.animateIn(this.config.duration, this.config.easing)
 		);
 		return this;
 	}
 
-	public animateOut (): this {
+	public animateOut(): this {
 		this.lines.forEach(line =>
 			line.animateOut(this.config.duration / 3, this.config.easing)
 		);
 		return this;
 	}
 
-	public destroy (total = false): this {
+	public destroy(total = false): this {
 		this.lines.forEach(line => line.destroy());
 		if (total) this.lines = [];
 		return this;
 	}
 
-	private filterHorizontalLines (linesHor: GridLine[]): GridLine[] {
+	private filterHorizontalLines(linesHor: GridLine[]): GridLine[] {
 		const filteredHor: GridLine[] = [];
 
 		while (linesHor.length > 0) {
@@ -168,7 +170,7 @@ export default class AnimatedGrid {
 		return filteredHor;
 	}
 
-	private filterVerticalLines (linesVer: GridLine[]): GridLine[] {
+	private filterVerticalLines(linesVer: GridLine[]): GridLine[] {
 		const filteredVer: GridLine[] = [];
 
 		while (linesVer.length > 0) {

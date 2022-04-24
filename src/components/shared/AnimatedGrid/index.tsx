@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { RouterState } from '@hooks/useRouterState';
 import AnimatedGrid, { AnimatedGridConfig } from './Grid';
 import useViewSize from '@hooks/useViewSize';
-import styles from '@styles/modules/AnimatedGrid.module.css';
+import styles from './Grid.module.scss';
 
 type AnimatedGridProps = {
 	routerState: RouterState;
@@ -20,12 +20,12 @@ const Grid: FC<AnimatedGridProps> = ({ children, routerState }) => {
 	const grid = useAnimatedGrid({
 		duration: 1400,
 		easing: 'ease-out',
-		lineColor: '#ccc',
+		lineColor: '#eee',
 		lineWidth: 2,
 		svg: gridSVG
 	});
 
-	const { width } = useViewSize({ debounce: 240 });
+	const { width } = useViewSize({ debounce: 120 });
 
 	const generateGrid = (animate = true) => {
 		if (!content.current) return;
@@ -44,8 +44,8 @@ const Grid: FC<AnimatedGridProps> = ({ children, routerState }) => {
 
 	useEffect(() => {
 		if (grid.isEmpty) return;
-		grid.positionate();
-	}, [width]);
+		generateGrid();
+	}, [width, grid]);
 
 	const destroyGrid = () => {
 		grid.animateOut();
