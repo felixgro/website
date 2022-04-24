@@ -1,7 +1,7 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useRef } from 'react';
 import { GameState } from '.';
 import BoardRow from './BoardRow';
-import style from '@styles/modules/Wordle.module.css';
+import style from './wordle.module.scss';
 
 type BoardProps = {
 	gameState: GameState;
@@ -11,32 +11,60 @@ type BoardProps = {
 	solution: string;
 };
 
-const Board: FC<BoardProps> = ({ maxTries, solution }) => {
+const Board: FC<BoardProps> = ({ maxTries, solution, onWin, onLoose }) => {
 	const [curAttempt, setCurAttempt] = useState(0);
+	const marker = useRef<HTMLDivElement>(null);
 
-	const gotoNextRow = () => {
-		setCurAttempt(curAttempt => curAttempt + 1);
+	const handleRowFinished = (won = false) => {
+		setCurAttempt(curAttempt => {
+			if (won) {
+				onWin();
+				return -1;
+			} else if (curAttempt + 1 < maxTries) {
+				return curAttempt + 1;
+			} else {
+				onLoose();
+				return -1;
+			}
+		});
 	};
 
+	const setMarkerFocus = (state: 'focus' | 'blur') => {
+		if (!marker.current) return;
+		marker.current.classList.toggle(style.markerFocus, state === 'focus');
+	}
+
 	useEffect(() => {
-		if (curAttempt < maxTries) {
-			// select next input
-			const nextInput = document.querySelector<HTMLInputElement>(
-				`#guess-${curAttempt}`
-			);
-			nextInput?.focus();
+		if (curAttempt === -1) {
+			marker.current!.style.opacity = '0';
+			return;
 		}
-	}, [curAttempt]);
+
+		const nextInput = document.querySelector<HTMLInputElement>(
+			`#guess-${curAttempt}`
+		);
+
+		if (nextInput) {
+			marker.current!.style.transform = `translateY(${curAttempt * 64 + curAttempt * 8}px)`;
+			nextInput.focus();
+		}
+	}, [curAttempt, maxTries]);
 
 	return (
 		<div className={style.boardRowWrapper}>
+			<div ref={marker} className={style.marker} aria-hidden="true">
+				<div></div>
+				<div></div>
+			</div>
 			{Array.from({ length: maxTries }).map((_, idx) => (
 				<BoardRow
 					key={idx}
 					idx={idx}
 					solution={solution}
 					attempt={curAttempt}
-					onFinished={gotoNextRow}
+					onFinished={handleRowFinished}
+					onFocus={() => setMarkerFocus('focus')}
+					onBlur={() => setMarkerFocus('blur')}
 				/>
 			))}
 		</div>

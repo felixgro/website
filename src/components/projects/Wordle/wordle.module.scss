@@ -1,0 +1,151 @@
+$marker-width: 20px;
+$marker-height: 2px;
+$marker-margin: 32px;
+
+.markerFocus {
+   div {
+      background: #ccc !important;
+   }
+}
+
+.marker {
+   position: absolute;
+   width: calc(100% + $marker-margin * 2);
+   height: 64px;
+   left: calc($marker-margin * -1);
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   transition: all 140ms ease-out;
+
+   div {
+      position: relative;
+      height: $marker-height;
+      width: $marker-width;
+      background: #ddd;
+      transition: all 140ms ease-out;
+   }
+}
+
+.gameWrapper {
+   position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.modal {
+   background: #fff;
+   padding: 20px 30px;
+   max-width: 290px;
+   position: absolute;
+   line-height: 1.6em;
+   z-index: 100;
+   h3 {
+      margin-bottom: 10px;
+   }
+   p span {
+      font-weight: 600;
+   }
+}
+
+.board {
+   max-width: 650px;
+   user-select: none;
+}
+
+.boardRowWrapper {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   max-width: fit-content;
+}
+
+.boardRow {
+   position: relative;
+   max-width: fit-content;
+}
+
+.boardRow > form {
+   position: absolute;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100%;
+   width: 100%;
+}
+
+.boardRow > form > input,
+.boardRow > form > label {
+   opacity: 0;
+}
+
+.boardRow > form > input {
+   position: absolute;
+   height: 100%;
+   width: 100%;
+   inset: 0;
+   z-index: 100;
+}
+
+.boardCellWrapper {
+   display: flex;
+   flex-direction: row;
+   gap: 8px;
+}
+
+.boardCell {
+   position: relative;
+   height: 64px;
+   width: 64px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 32px;
+   border: 2px solid #ddd;
+   font-weight: 800;
+   transform-origin: center center;
+   transition: border-color 240ms ease-out;
+}
+
+.rowInFocus > div > div {
+   border-color: #ccc;
+}
+
+.boardCell::after {
+   content: "";
+   position: absolute;
+   inset: 0;
+   width: 100%;
+   height: 100%;
+   pointer-events: none;
+   z-index: -1;
+   transform: scaleY(0);
+   transform-origin: bottom center;
+   transition: transform 160ms ease-out;
+}
+
+.wrongCell {
+   border-color: #ddd;
+}
+.wrongCell::after {
+   background: #ddd;
+   transform: scaleY(1);
+}
+
+.rightCell {
+   border-color: #c9b458;
+}
+.rightCell::after {
+   background-color: #c9b458;
+   transform: scaleY(1);
+}
+
+.perfectCell {
+   border-color: #6aaa64;
+}
+.perfectCell::after {
+   background-color: #6aaa64;
+   transform: scaleY(1);
+}

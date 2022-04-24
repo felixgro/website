@@ -1,19 +1,23 @@
-import React, { FC, useMemo, useRef, useState } from 'react';
+import React, { FC, KeyboardEventHandler, useMemo, useRef, useState } from 'react';
 import BoardCell from './BoardCell';
-import style from '@styles/modules/Wordle.module.css';
+import style from './wordle.module.scss';
 
 type BoardRowProps = {
 	solution: string;
 	idx: number;
 	attempt: number;
-	onFinished: () => void;
+	onFinished: (won: boolean) => void;
+	onFocus: () => void;
+	onBlur: () => void;
 };
 
 const BoardRow: FC<BoardRowProps> = ({
 	solution,
 	idx,
 	attempt,
-	onFinished
+	onFinished,
+	onFocus,
+	onBlur
 }) => {
 	const rowElement = useRef<HTMLDivElement>(null);
 	const inputElement = useRef<HTMLInputElement>(null);
@@ -30,12 +34,14 @@ const BoardRow: FC<BoardRowProps> = ({
 
 	const validateGuess = (e: any) => {
 		const char = (e.data as string).toLowerCase();
+		const charCode = char.charCodeAt(0);
 
-		// TODO: check for valid input
-	};
-
-	const handleGuessUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setGuess(e.target.value);
+		if (
+			!charCode ||
+			charCode < 97 ||
+			charCode > 122
+		)
+			e.preventDefault();
 	};
 
 	const handleGuessSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -63,30 +69,52 @@ const BoardRow: FC<BoardRowProps> = ({
 		setStateMap(stateMap);
 
 		setFocusState('blur');
-		onFinished();
+		onFinished(stateMap.every(state => state === 2));
 	};
+
+	const setCursorToEnd = () => {
+		if (!inputElement.current) return;
+		const length = inputElement.current.value.length;
+
+		setTimeout(() => {
+			inputElement.current!.setSelectionRange(length, length);
+		}, 1);
+	}
 
 	const setFocusState = (state: 'focus' | 'blur') => {
 		if (!rowElement.current) return;
 
 		if (state === 'focus') {
+			onFocus();
+			setCursorToEnd();
 			rowElement.current.classList.add(style.rowInFocus);
 		} else {
+			onBlur();
 			rowElement.current.classList.remove(style.rowInFocus);
 		}
 	};
 
+	const preventCursorMovement: KeyboardEventHandler<HTMLInputElement> = (evt) => {
+		if (evt.key === 'ArrowLeft' || evt.key === 'ArrowRight' || evt.key === 'ArrowUp' || evt.key === 'ArrowDown') {
+			evt.preventDefault();
+		}
+	}
+
 	return (
 		<div className={style.boardRow} ref={rowElement}>
-			<form onSubmit={handleGuessSubmit}>
+
+			<form onSubmit={handleGuessSubmit} autoComplete="off">
 				<label htmlFor={`guess-${idx}`}>{`Guess ${idx + 1}`}</label>
 				<input
 					type='text'
 					id={`guess-${idx}`}
 					ref={inputElement}
+					value={guess}
 					onFocus={() => setFocusState('focus')}
 					onBlur={() => setFocusState('blur')}
-					onChange={handleGuessUpdate}
+					onChange={(e) => setGuess(e.target.value)}
+					onClick={setCursorToEnd}
+					onKeyDown={preventCursorMovement}
 					onBeforeInput={validateGuess}
 					disabled={attempt !== idx}
 					maxLength={solution.length}

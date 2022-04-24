@@ -1,18 +1,21 @@
 import GridLine from './GridLine';
 import GridPoint, { BoxPosition } from './GridPoint';
-import { RefObject } from 'react';
+import { RefObject, useRef } from 'react';
 
 export type AnimatedGridConfig = {
 	duration: number;
 	easing: string;
 	lineWidth: number;
 	lineColor: string;
-	svg: RefObject<SVGSVGElement>;
+	cellSelector: string;
 };
 
 export default class AnimatedGrid {
 	private lines: GridLine[] = [];
 	private config: AnimatedGridConfig;
+
+	private svg: RefObject<SVGSVGElement> = useRef(null);
+	private content: RefObject<HTMLElement> = useRef(null);
 
 	constructor(config: AnimatedGridConfig) {
 		this.config = config;
@@ -22,8 +25,34 @@ export default class AnimatedGrid {
 		return this.lines.length === 0;
 	}
 
+	public setRefs(svg: RefObject<SVGSVGElement>, content: RefObject<HTMLDivElement>): this {
+		this.svg = svg;
+		this.content = content;
+		return this;
+	}
+
+	public generate(animate = true): this {
+		if (!this.content.current || !this.svg.current) return this;
+
+		const gridCells = this.content.current!.querySelectorAll<HTMLElement>(
+			this.config.cellSelector
+		);
+
+		const contentBcr = this.content.current!.getBoundingClientRect();
+		this.svg.current.setAttribute('width', contentBcr.width + '');
+		this.svg.current!.setAttribute('height', contentBcr.height + '');
+
+		this.setGridCells(gridCells);
+
+		const lineElements = this.lines.map(line => line.generate(contentBcr, !animate));
+		this.svg.current.append(...lineElements);
+		if (animate) this.animateIn();
+
+		return this;
+	}
+
 	public setGridCells(cells: NodeListOf<HTMLElement>): this {
-		if (!this.isEmpty) this.destroy(true);
+		if (!this.isEmpty) this.destroy();
 
 		const linesHor: GridLine[] = [];
 		const linesVer: GridLine[] = [];
@@ -36,13 +65,13 @@ export default class AnimatedGrid {
 			const bottomRight = new GridPoint(el, BoxPosition.BOTTOM_RIGHT);
 
 			linesHor.push(
-				new GridLine(topLeft, topRight, this.config.lineWidth),
-				new GridLine(bottomLeft, bottomRight, this.config.lineWidth)
+				new GridLine(topLeft, topRight, this.config.lineWidth, this.config.lineColor),
+				new GridLine(bottomLeft, bottomRight, this.config.lineWidth, this.config.lineColor)
 			);
 
 			linesVer.push(
-				new GridLine(topLeft, bottomLeft, this.config.lineWidth),
-				new GridLine(topRight, bottomRight, this.config.lineWidth)
+				new GridLine(topLeft, bottomLeft, this.config.lineWidth, this.config.lineColor),
+				new GridLine(topRight, bottomRight, this.config.lineWidth, this.config.lineColor)
 			);
 		});
 
@@ -52,23 +81,6 @@ export default class AnimatedGrid {
 			...this.filterVerticalLines(linesVer)
 		];
 
-		return this;
-	}
-
-	public generate(content: RefObject<HTMLDivElement>): this {
-		if (!this.config.svg.current) return this;
-		const svg = this.config.svg.current;
-		svg.innerHTML = '';
-		const parentBcr = svg.parentElement!.getBoundingClientRect();
-		svg.setAttribute('width', `${parentBcr.width}`);
-		svg.setAttribute('height', `${parentBcr.height}`);
-		const lineElements = this.lines.map(line => line.generate(parentBcr));
-		svg.append(...lineElements);
-		return this;
-	}
-
-	public positionate(): this {
-		this.lines.forEach(line => line.updatePositions());
 		return this;
 	}
 
@@ -86,9 +98,9 @@ export default class AnimatedGrid {
 		return this;
 	}
 
-	public destroy(total = false): this {
+	public destroy(): this {
 		this.lines.forEach(line => line.destroy());
-		if (total) this.lines = [];
+		this.lines = [];
 		return this;
 	}
 
@@ -164,7 +176,7 @@ export default class AnimatedGrid {
 				currRow[currRow.length - 1].pointB.boxPos
 			);
 
-			filteredHor.push(new GridLine(pointA, pointB, this.config.lineWidth));
+			filteredHor.push(new GridLine(pointA, pointB, this.config.lineWidth, this.config.lineColor));
 		}
 
 		return filteredHor;
@@ -244,7 +256,7 @@ export default class AnimatedGrid {
 				currCol[currCol.length - 1].pointB.boxPos
 			);
 
-			filteredVer.push(new GridLine(pointA, pointB, this.config.lineWidth));
+			filteredVer.push(new GridLine(pointA, pointB, this.config.lineWidth, this.config.lineColor));
 		}
 
 		return filteredVer;

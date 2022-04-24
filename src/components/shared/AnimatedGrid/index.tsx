@@ -4,71 +4,47 @@ import AnimatedGrid, { AnimatedGridConfig } from './Grid';
 import useViewSize from '@hooks/useViewSize';
 import styles from './Grid.module.scss';
 
-type AnimatedGridProps = {
+type Props = {
+	className: string;
+	config: AnimatedGridConfig;
 	routerState: RouterState;
 };
 
-const useAnimatedGrid = (config: AnimatedGridConfig) => {
-	const [grid] = useState<AnimatedGrid>(new AnimatedGrid(config));
-	return grid;
-};
-
-const Grid: FC<AnimatedGridProps> = ({ children, routerState }) => {
+const Grid: FC<Props> = ({ children, routerState, config, className = '' }) => {
+	const [grid] = useState(new AnimatedGrid(config));
 	const gridSVG = useRef<SVGSVGElement>(null);
 	const content = useRef<HTMLDivElement>(null);
 
-	const grid = useAnimatedGrid({
-		duration: 1400,
-		easing: 'ease-out',
-		lineColor: '#eee',
-		lineWidth: 2,
-		svg: gridSVG
-	});
-
 	const { width } = useViewSize({ debounce: 120 });
 
-	const generateGrid = (animate = true) => {
-		if (!content.current) return;
-		const gridCells = content.current!.querySelectorAll<HTMLElement>(
-			`.grid-cell`
-		);
+	// Set important elements on first render
+	useEffect(() => {
+		grid.setRefs(gridSVG, content);
+	}, [grid]);
 
-		const { width, height } = content.current!.getBoundingClientRect();
-
-		gridSVG.current!.setAttribute('width', width + '');
-		gridSVG.current!.setAttribute('height', height + '');
-
-		grid.setGridCells(gridCells).generate(content);
-		if (animate) grid.animateIn();
-	};
-
+	// Generate new grid on resize without animation
 	useEffect(() => {
 		if (grid.isEmpty) return;
-		generateGrid();
+		grid.generate(false);
 	}, [width, grid]);
 
-	const destroyGrid = () => {
-		grid.animateOut();
-	};
-
+	// Generate & animate new grid on route change
 	useEffect(() => {
 		switch (routerState) {
 			case RouterState.INITIAL:
-				generateGrid();
+				grid.generate();
 				break;
 			case RouterState.LOADING:
-				destroyGrid();
+				grid.animateOut();
 				break;
 			case RouterState.LOADED:
-				generateGrid();
+				grid.generate();
 				break;
 		}
-
-		console.log(routerState);
-	}, [routerState]);
+	}, [routerState, grid]);
 
 	return (
-		<div className='overlay'>
+		<div className={`${styles.gridWrapper} ${className}`}>
 			<div ref={content}>{children}</div>
 			<div className={styles.svgWrapper} aria-hidden={true}>
 				<svg ref={gridSVG} className={styles.svg}></svg>

@@ -53,14 +53,6 @@ const Worlde: NextPage<WordlePageProps> = ({ secretWord, maxTries }) => {
 							<Badge label={'1.0.0'} />
 						</div>
 						<div>
-							<MetricCard
-								label={'Games Played'}
-								value={'1,323'}
-							/>
-							<MetricCard
-								label={'Win Rate'}
-								value={'52%'}
-							/>
 						</div>
 					</header>
 
@@ -71,13 +63,13 @@ const Worlde: NextPage<WordlePageProps> = ({ secretWord, maxTries }) => {
 								Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum ad nobis nam architecto possimus vero natus voluptate! Enim, voluptates aut quibusdam labore dolorum dignissimos officia suscipit ducimus modi doloribus natus?
 							</p>
 							<button className='button--primary'>Create Wordle</button>
-							<button className='button--secondary'>Reset</button>
+							<button className='button--secondary' onClick={() => location.reload()}>Reset</button>
 						</div>
 						<form onSubmit={generateGameLink}>
 							<h2>Generate Wordle</h2>
 							<label>Word (max: 8 Characters)</label>
 							<input type='text' name='word' maxLength={8} />
-							<label>Max Tires</label>
+							<label>Max Tries</label>
 							<input
 								type='number'
 								name='maxtries'
@@ -95,7 +87,7 @@ const Worlde: NextPage<WordlePageProps> = ({ secretWord, maxTries }) => {
 					<Wordle solution={secretWord} maxTries={maxTries ?? 6} />
 				</section>
 			</main>
-		</div>
+		</div >
 	);
 };
 

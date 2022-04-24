@@ -6,11 +6,12 @@ export default class GridLine {
 	constructor(
 		public pointA: GridPoint,
 		public pointB: GridPoint,
-		private width: number
+		private width: number,
+		private color: string
 	) { }
 
-	get length(): number {
-		return Math.sqrt(
+	get lengthDouble(): number {
+		return 2 * Math.sqrt(
 			Math.pow(this.pointA.coords.x - this.pointB.coords.x, 2) +
 			Math.pow(this.pointA.coords.y - this.pointB.coords.y, 2)
 		);
@@ -20,12 +21,7 @@ export default class GridLine {
 		return this.pointA.coords.y === this.pointB.coords.y;
 	}
 
-	public updatePositions(): void {
-		this.pointA.updateCoords();
-		this.pointB.updateCoords();
-	}
-
-	public generate(parentBcr: DOMRect) {
+	public generate(parentBcr: DOMRect, showStraight = false) {
 		this.destroy();
 		let { x, y } = this.pointA.coords;
 		let { x: x2, y: y2 } = this.pointB.coords;
@@ -43,7 +39,7 @@ export default class GridLine {
 		this.line.setAttribute('y1', `${y}`);
 		this.line.setAttribute('x2', `${x2}`);
 		this.line.setAttribute('y2', `${y2}`);
-		this.line.setAttribute('stroke', '#ddd');
+		this.line.setAttribute('stroke', this.color);
 		if (
 			(this.isHorizontal && (y === 0 || y === parentBcr.height)) ||
 			(!this.isHorizontal && (x === 0 || x === parentBcr.width))
@@ -53,10 +49,12 @@ export default class GridLine {
 			this.line.setAttribute('stroke-width', `${this.width}`);
 		}
 
-		Object.assign(this.line.style, {
-			strokeDasharray: `${this.length * 2}`,
-			strokeDashoffset: `${this.length * 2}`
-		});
+		if (!showStraight) {
+			Object.assign(this.line.style, {
+				strokeDasharray: `${this.lengthDouble}`,
+				strokeDashoffset: `${this.lengthDouble}`
+			});
+		}
 
 		return this.line;
 	}
@@ -83,13 +81,12 @@ export default class GridLine {
 
 	public animateOut(duration: number, easing: string) {
 		if (!this.line) return;
-		const lengthDouble = this.length * 2;
 
 		this.line
 			.animate(
 				[
 					{
-						strokeDashoffset: `${lengthDouble}`
+						strokeDashoffset: `${this.lengthDouble}`
 					}
 				],
 				{
@@ -98,7 +95,7 @@ export default class GridLine {
 				}
 			)
 			.addEventListener('finish', () => {
-				this.line!.style.strokeDashoffset = `${lengthDouble}`;
+				this.line!.style.strokeDashoffset = `${this.lengthDouble}`;
 				this.destroy();
 			}, { once: true });
 	}

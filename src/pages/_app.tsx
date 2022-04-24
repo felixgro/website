@@ -9,14 +9,20 @@ function App({ Component, pageProps }: AppProps) {
 	const routerState = useRouterState();
 
 	return (
-		<AnimatedGrid routerState={routerState}>
-			<div className='container'>
-				<Header />
-				<Component {...pageProps} />
-				<div className='grid-cell'>
-					<Footer />
-				</div>
-			</div>
+		<AnimatedGrid
+			className='container'
+			routerState={routerState}
+			config={{
+				cellSelector: '.grid-cell',
+				lineColor: '#ddd',
+				lineWidth: 2,
+				duration: 1700,
+				easing: 'ease-out'
+			}}
+		>
+			<Header />
+			<Component {...pageProps} />
+			<Footer />
 		</AnimatedGrid>
 	);
 }

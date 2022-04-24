@@ -38,15 +38,6 @@ ul, ol {
   padding: 20px 26px;
 }
 
-.overlay {
-  position: relative;
-  display: grid;
-}
-
-.overlay > * {
-  grid-area: 1 / 1;
-}
-
 #__next {
   padding: 30px;
 }

@@ -1,5 +1,6 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Board from './Board';
+import style from './wordle.module.scss';
 
 type WordleProps = {
 	solution: string;
@@ -15,24 +16,39 @@ export enum GameState {
 const Wordle: FC<WordleProps> = ({ solution, maxTries = 8 }) => {
 	const [gameState, setGameState] = useState(GameState.PLAYING);
 
-	const onWin = () => {
-		setGameState(GameState.WON);
-		console.log('congrats!');
-	};
+	useEffect(() => {
+		switch (gameState) {
+			case GameState.WON:
+				console.log('congrats!');
+				break;
+			case GameState.LOST:
+				console.log('you lost... the word was: ' + solution);
+				break;
 
-	const onLoose = () => {
-		setGameState(GameState.LOST);
-		console.log('the word you were looking for was:', solution);
-	};
+		}
+	}, [gameState, solution]);
 
 	return (
-		<Board
-			gameState={gameState}
-			solution={solution}
-			maxTries={maxTries}
-			onWin={onWin}
-			onLoose={onLoose}
-		/>
+		<div className={style.gameWrapper}>
+			<Board
+				gameState={gameState}
+				solution={solution}
+				maxTries={maxTries}
+				onWin={() => setGameState(GameState.WON)}
+				onLoose={() => setGameState(GameState.LOST)}
+			/>
+			{gameState === GameState.WON || gameState === GameState.LOST ?
+				<div className={style.modal}>
+					<h3>{gameState === GameState.WON ? 'You did it!' : 'You Lost!'}</h3>
+					{gameState === GameState.WON ? (
+						<p>Congrats!</p>
+					) : (
+						<p>The word you were looking for was <span>{solution}</span>.</p>
+					)}
+
+				</div>
+				: null}
+		</div>
 	);
 };
 
