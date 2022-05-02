@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import Head from 'next/head';
+import Head from '@components/Head';
 import Link from 'next/link';
 
 type ProjectProps = {
@@ -9,9 +9,7 @@ type ProjectProps = {
 const Projects: NextPage<ProjectProps> = ({ projects }) => {
 	return (
 		<div className='container grid-cell'>
-			<Head>
-				<title>Projects</title>
-			</Head>
+			<Head title="Projects" />
 
 			<main>
 				<h1>Projects</h1>
@@ -35,7 +33,7 @@ const Projects: NextPage<ProjectProps> = ({ projects }) => {
 
 export default Projects;
 
-export async function getStaticProps () {
+export async function getStaticProps() {
 	//requiring path and fs modules
 	const path = require('path');
 	const fs = require('fs');
