@@ -1,17 +1,17 @@
 import NextHead from "next/head";
 import { FC, useMemo } from "react";
 
+type Props = {
+   title?: string;
+   description?: string;
+};
+
 const seoConfig = {
    title: "Felix Grohs",
    teaser: "Fullstack Web Developer",
    seperator: ' - ',
    description: ''
 };
-
-type Props = {
-   title?: string;
-   description?: string;
-}
 
 const Head: FC<Props> = ({
    title: titleRaw,
