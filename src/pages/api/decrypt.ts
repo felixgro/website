@@ -10,19 +10,16 @@ export default function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<Data>
 ) {
-	const content = req.query.q as string;
-	const iv = req.query.i as string;
+	const secret = req.query.s as string;
 
 	if (
-		!content ||
-		typeof content !== 'string' ||
-		!iv ||
-		typeof iv !== 'string'
+		!secret ||
+		typeof secret !== 'string'
 	) {
 		res.status(405).end('Method Not Allowed');
 	}
 
-	const decrypted = decrypt({ content, iv });
+	const decrypted = decrypt(secret);
 
 	res.status(200).json({ decrypted });
 }

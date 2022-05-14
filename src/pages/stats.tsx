@@ -13,8 +13,6 @@ const Stats: NextPage = () => {
       });
    }, []);
 
-   console.log(data);
-
    return (
       <div className='container grid-cell'>
          <h1>Stats</h1>

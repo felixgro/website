@@ -49,7 +49,7 @@ const BoardCell: FC<BoardCellProps> = ({ value, state, idx }) => {
 					break;
 			}
 		}, idx * 40);
-	}, [state]);
+	}, [state, idx]);
 
 	return (
 		<div ref={cell} className={style.boardCell}>
