@@ -1,12 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from 'next';
-import { decrypt } from '@utils/crypto';
+import { decrypt } from '@lib/crypto';
 
 type Data = {
 	decrypted: string | undefined;
 };
 
-export default function handler (
+export default function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<Data>
 ) {

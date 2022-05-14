@@ -1,0 +1,23 @@
+$gray-1: #F8F9FA;
+$gray-2: #EAECEF;
+$gray-3: #DEE2E6;
+$gray-4: #CED4DA;
+$gray-5: #ACB5BD;
+$gray-6: #6C757D;
+$gray-7: #495057;
+$gray-8: #343A40;
+$gray-9: #343A40;
+
+$breakpoints: (
+   xs: 0,
+   sm: 576px,
+   md: 768px,
+   lg: 992px,
+   xl: 1200px
+);
+
+@mixin mq($breakpoint) {
+   @media all and (max-width: map-get($breakpoints, $breakpoint)) {
+     @content;
+   }
+}

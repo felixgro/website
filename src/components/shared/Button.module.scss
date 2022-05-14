@@ -1,0 +1,35 @@
+.button {
+   position: relative;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 12px 22px;
+   font-size: .865rem;
+   font-weight: 400;
+   letter-spacing: .05em;
+   color: #F8F9FA;
+   transition: all 160ms ease-out;
+   outline: 0 solid hsla(210, 11%, 15%, 0);
+   border: transparent;
+   background: transparent;
+   cursor: pointer;
+
+   &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:#343A40;
+      transition: inset 160ms ease-out;
+      will-change: inset;
+      z-index: -1;
+   }
+
+   &:hover,
+   &:focus {
+      outline: 3px solid hsla(210, 11%, 15%, 1);
+      transform: scale(1.05);
+      &::after {
+         inset: 2px;
+      }
+   }
+}

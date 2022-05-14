@@ -1,0 +1,120 @@
+@import '@styles/common/variables';
+
+.header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+
+   // Left Area
+   div:first-child {
+      svg {
+         height: 35px;
+         z-index: 1001;
+         path {
+            transition: fill 160ms ease-out;
+            fill: #212529;
+         }
+      }
+   }
+
+   // Header Right
+   div:last-child {
+      nav button {
+         display: none;
+         margin-right: -10px;
+         position: relative;
+         align-items: center;
+         justify-content: center;
+         z-index: 1001;
+
+         @include mq(sm) {
+            display: flex;
+         }
+      }
+
+      ul {
+         display: flex;
+         gap: 15px;
+      
+         a {
+            display: block;
+            position: relative;
+            padding: 10px 12px;
+            font-size: .9rem;
+         }
+
+         @include mq(sm) {
+            position: fixed;
+            // padding-inline: 44px
+            padding: 130px 80px;
+            inset: 0;
+            background: #212529;
+            color: #F8F9FA;
+            flex-direction: column;
+            gap: 0;
+            z-index: 1000;
+            overflow: hidden;
+            transform: scaleX(1);
+            transition: all 160ms ease-out;
+            transform-origin: right center;
+
+            li {
+               $n: 5;
+               opacity: 1;
+               transform: translateX(0);
+               transition: all 320ms ease-out;
+               @for $x from 1 through $n {
+                  &:nth-child(#{$x}) {
+                    transition-delay: 100ms + 100ms * ($x - 1);
+                  }
+               }
+   
+               a {
+                  display: block;
+                  font-size: 1.35rem;
+
+                  &::after {
+                     content: '';
+                     position: absolute;
+                     top: calc(50% - 1px);
+                     right: 100%;
+                     width: 20px;
+                     height: 2px;
+                     transform: scaleX(0);
+                     transform-origin: right center;
+                     transition: all 160ms ease-out;
+                  }
+
+                  &[aria-current="page"] {
+                     &::after {
+                        background: #F8F9FA !important;
+                        transform: scaleX(1);
+                     }
+                  }
+
+                  &:hover {
+                     &::after {
+                        background: $gray-6;
+                        transform: scaleX(1);
+                     }
+                  }
+               }
+            }
+
+            &[hidden] {
+               transform: scaleX(0);
+               li {
+                  opacity: 0;
+                  transform: translateX(50px);
+               }
+            }
+         }
+      }
+   }
+}
+
+.headerNavOpen {
+   div:first-child svg path {
+      fill: #F8F9FA;
+   }
+}

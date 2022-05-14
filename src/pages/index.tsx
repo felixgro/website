@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
-import Head from '@components/Head';
+import Head from '@components/base/Head';
 import { Repository, RepositoryLanguages } from '../types/github';
-import GithubTicker from '../components/GithubTicker';
+import GithubTicker from '../components/base/GithubTicker';
 
 type HomeProps = {
 	projects: Repository[];

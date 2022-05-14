@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import debounce from '../utils/debouce';
+import debounce from '../lib/debouce';
 
 type ViewSizeOptions = {
 	debounce?: number;
 };
 
-export default function useViewSize (opts?: ViewSizeOptions) {
+export default function useViewSize(opts?: ViewSizeOptions) {
 	const [size, setSize] = useState({
 		width: 0,
 		height: 0

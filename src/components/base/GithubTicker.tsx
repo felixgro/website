@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Repository } from '../types/github';
+import { Repository } from '../../types/github';
 
 type ProjectTickerProps = {
 	projects: Repository[];

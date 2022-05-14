@@ -1,22 +1,26 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from 'next';
-import { encrypt, EncryptedData } from '@utils/crypto';
+import { encrypt } from '@lib/crypto';
 
 type Data = {
 	encrypted: string;
 	cleanSecret: string;
 };
 
-export default function handler (
+export default function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<EncryptedData>
+	res: NextApiResponse<{ encrypted: string }>
 ) {
 	const query = req.query.q;
 	if (!query || typeof query !== 'string') {
 		res.status(405).end('Method Not Allowed');
 	}
 
-	const encrypted = encrypt(query as string);
+	try {
+		const encrypted = encrypt(query as string);
 
-	res.status(200).json(encrypted);
+		return res.status(200).json({ encrypted });
+	} catch (err) {
+		console.log(err);
+	}
 }

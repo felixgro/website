@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
-import Header from '@components/Header';
+import Header from '@components/base/Header';
 import AnimatedGrid from '@components/shared/AnimatedGrid';
-import Footer from '@components/Footer';
+import Footer from '@components/base/Footer';
 import useRouterState from '@hooks/useRouterState';
 import '@styles/globals.scss';
 
@@ -14,7 +14,7 @@ function App({ Component, pageProps }: AppProps) {
 			routerState={routerState}
 			config={{
 				cellSelector: '.grid-cell',
-				lineColor: '#ddd',
+				lineColor: '#DEE2E6',
 				lineWidth: 2,
 				duration: 1700,
 				easing: 'ease-out'

@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import WordleForm from './WordleForm';
 import Board from './Board';
 import style from './wordle.module.scss';
 
@@ -14,29 +15,8 @@ export enum GameState {
 }
 
 const Wordle: FC<WordleProps> = ({ solution, maxTries }) => {
-	maxTries = maxTries || 5;
+	maxTries = maxTries || 6;
 	const [gameState, setGameState] = useState(GameState.PLAYING);
-
-	const generateGameLink = (e: any) => {
-		e.preventDefault();
-
-		const formData = new FormData(e.target as HTMLFormElement);
-		const secretWord = formData.getAll('word')[0];
-		const maxTriesValue = formData.getAll('maxtries')[0];
-
-		fetch(`/api/encrypt?q=${secretWord}`, {
-			method: 'GET'
-		})
-			.then(res => res.json())
-			.then(({ content, iv }) => {
-				const { origin, pathname } = location;
-				const url =
-					origin + pathname + `?q=${content}&i=${iv}&t=${maxTriesValue}`;
-
-				navigator.clipboard.writeText(url);
-				console.log(url + ' copied to clipboard');
-			});
-	};
 
 	useEffect(() => {
 		switch (gameState) {
@@ -67,26 +47,8 @@ const Wordle: FC<WordleProps> = ({ solution, maxTries }) => {
 						<p>
 							Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum ad nobis nam architecto possimus vero natus voluptate! Enim, voluptates aut quibusdam labore dolorum dignissimos officia suscipit ducimus modi doloribus natus?
 						</p>
-						<button className='button--primary'>Create Wordle</button>
-						<button className='button--secondary' onClick={() => location.reload()}>Reset</button>
 					</div>
-
-					<form onSubmit={generateGameLink}>
-						<h2>Generate Wordle</h2>
-						<label>Word (max: 8 Characters)</label>
-						<input type='text' name='word' maxLength={8} />
-						<label>Max Tries</label>
-						<input
-							type='number'
-							name='maxtries'
-							defaultValue={6}
-							min={3}
-							max={10}
-						/>
-						<button type='submit' className='button--primary'>Generate & Copy Link</button>
-					</form>
 				</article>
-
 			</section>
 
 			<section className='grid-cell'>
@@ -110,6 +72,10 @@ const Wordle: FC<WordleProps> = ({ solution, maxTries }) => {
 						</div>
 						: null}
 				</div>
+			</section>
+
+			<section className='grid-cell'>
+				<WordleForm />
 			</section>
 		</main>
 	);
