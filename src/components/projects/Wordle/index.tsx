@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import WordleForm from './WordleForm';
 import Board from './Board';
-import style from './wordle.module.scss';
+import style from './Wordle.module.scss';
 
 type WordleProps = {
 	solution: string;

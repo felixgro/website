@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef } from 'react';
-import style from '@styles/modules/Wordle.module.css';
+import style from './Wordle.module.scss';
 
 type BoardCellProps = {
 	value: string;

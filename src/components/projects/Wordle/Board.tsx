@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, useRef } from 'react';
 import { GameState } from '.';
 import BoardRow from './BoardRow';
-import style from './wordle.module.scss';
+import style from './Wordle.module.scss';
 
 type BoardProps = {
 	gameState: GameState;

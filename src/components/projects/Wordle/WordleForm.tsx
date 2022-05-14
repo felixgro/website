@@ -1,13 +1,11 @@
 import { FC, useState } from "react";
 import { useForm } from 'react-hook-form';
 import Button from '@components/shared/Button';
-import style from "./wordle.module.scss";
+import style from "./Wordle.module.scss";
 
 const WordleForm: FC = () => {
-   const { register, handleSubmit, watch, formState: { errors } } = useForm();
+   const { register, handleSubmit, formState: { errors } } = useForm();
    const [customUrl, setCustomUrl] = useState('‏‏‎ ‎');
-
-   console.log(watch('word'));
 
    const onSubmit = handleSubmit(data => {
       fetch(`/api/encrypt?q=${data.word}${data.maxtries}`, {

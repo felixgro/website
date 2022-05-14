@@ -1,6 +1,6 @@
 import React, { FC, KeyboardEventHandler, useMemo, useRef, useState } from 'react';
 import BoardCell from './BoardCell';
-import style from './wordle.module.scss';
+import style from './Wordle.module.scss';
 
 type BoardRowProps = {
 	solution: string;
