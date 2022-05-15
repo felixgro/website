@@ -4,10 +4,10 @@ const baseUrl = 'https://felixgrohs.com';
 
 try {
    // Load all pages active from next's page manifest
-   const pageManifest = JSON.parse(await fs.readFile('.next/server/pages-manifest.json', 'utf8'));
+   const pagesManifest = JSON.parse(await fs.readFile('.next/server/pages-manifest.json', 'utf8'));
 
    // Exclude specific pages like 404 & api endpoints
-   const pages = Object.keys(pageManifest).filter(slug => {
+   const pages = Object.keys(pagesManifest).filter(slug => {
       return !slug.includes('_') &&
          !slug.includes('api') &&
          !slug.includes('404');
