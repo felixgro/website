@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "node ./scripts/generate-sitemap.mjs"
   },
   "dependencies": {
     "@prisma/client": "^3.12.0",
+    "globby": "^13.1.1",
     "hamburgers": "^1.2.1",
     "lodash": "^4.17.21",
     "next": "12.1.0",
