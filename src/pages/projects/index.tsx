@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import Head from '@components/base/Head';
 import Link from 'next/link';
 import { globby } from 'globby';
-import { promises as fs } from 'fs';
 import path from 'path';
 
 type ProjectProps = {
@@ -37,17 +36,19 @@ const Projects: NextPage<ProjectProps> = ({ projects }) => {
 export default Projects;
 
 export async function getStaticProps() {
-	const projectBasePath = path.join(__dirname, '../../../src/pages/projects');
+	// Find all projects located in projects directory (excluding index)
+	const basePath = path.join(__dirname, '../../../src/pages/projects');
 	const projectPaths = await globby([
-		path.join(projectBasePath, '*.tsx'),
-		'!' + path.join(projectBasePath, 'index.tsx')
+		path.join(basePath, '*.tsx'),
+		path.join('!', basePath, 'index.tsx')
 	]);
 
+	// Convert project paths to project objects for rendering
 	const projects = projectPaths.map(projectPath => {
 		const base = path.basename(projectPath, '.tsx');
 		return {
 			title: base[0].toUpperCase() + base.slice(1),
-			route: '/projects/' + base
+			route: `/projects/${base}`
 		}
 	});
 
