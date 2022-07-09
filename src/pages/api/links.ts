@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
 import basicAuthMiddleware from 'nextjs-basic-auth-middleware';
-
-const prisma = new PrismaClient();
+import prisma from '@lib/prisma';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
    switch (req.method) {
