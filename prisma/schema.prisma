@@ -11,7 +11,28 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model views {
+model Stat {
   slug  String @id @db.VarChar(255)
-  count Int    @default(1)
+  value Int    @default(1)
+}
+
+model Wordle {
+  id        Int      @id @default(autoincrement())
+  word      String   @db.VarChar(8)
+  isCustom  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Platform {
+  id    Int    @id @default(autoincrement())
+  slug  String @unique @db.VarChar(255)
+  links Link[]
+}
+
+model Link {
+  id         Int      @id @default(autoincrement())
+  platformId Int
+  Platform   Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+  url        String   @db.VarChar(255)
+  createdAt  DateTime @default(now())
 }
